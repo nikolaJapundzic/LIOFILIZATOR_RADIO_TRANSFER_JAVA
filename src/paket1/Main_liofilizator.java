@@ -68,11 +68,15 @@ public class Main_liofilizator {
 	static float vrednostT5 = 0;
 	static float vrednostT6 = 0;
 	static float vrednostM1 = 0;
+	static float vrednostM1REF = 0;
 	static String debag = "";
 	static int conectTest = 0;
+	static int tester = 0;
 	static Thread threadLabel;
 	static boolean flagZaStatusCon = true;
 	static int debBr = 0;
+	static boolean k = true;
+	static boolean vr = true;
 	//public static final String DATABASE_URL="jdbc:sqlite:Akvizicija_sa_vage.db";
 	
 	public static void main(String[] args) throws IOException{
@@ -155,18 +159,18 @@ public class Main_liofilizator {
 		
 		//PRAVLJENJE EXIT BUTTON-A
 		JButton exitButton = new JButton("EXIT");
-		exitButton.setBounds(321, 580, 92, 34);
+		exitButton.setBounds(371, 580, 69, 34);
 		windows.getContentPane().add(exitButton);
 		JButton dbToxlsButton = new JButton("Save .xls");
-		dbToxlsButton.setBounds(219, 580, 92, 34);
+		dbToxlsButton.setBounds(274, 580, 87, 34);
 		windows.getContentPane().add(dbToxlsButton);
 		JButton connectButton = new JButton("Connect");
-		connectButton.setBounds(112, 580, 97, 34);
+		connectButton.setBounds(89, 580, 96, 34);
 		windows.getContentPane().add(connectButton);
 		
 		//ComboBOX
 		JComboBox<String> portList = new JComboBox<String>();
-		portList.setBounds(10, 580, 92, 33);
+		portList.setBounds(10, 580, 69, 33);
 		windows.getContentPane().add(portList);
 		
 		JTextPane textPane = new JTextPane();
@@ -174,7 +178,7 @@ public class Main_liofilizator {
 		windows.getContentPane().add(textPane);
 		
 		JLabel label = new JLabel("LIOFILIZATOR");
-		label.setBounds(434, 584, 108, 21);
+		label.setBounds(450, 585, 108, 21);
 		windows.getContentPane().add(label);
 		label.setFont(new Font("Arial", Font.BOLD, 16));
 		
@@ -182,6 +186,26 @@ public class Main_liofilizator {
 		lblNewLabel.setBounds(568, 588, 177, 14);
 		windows.getContentPane().add(lblNewLabel);
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 16));
+		
+		JButton nuliranje = new JButton("Nula");
+		
+		nuliranje.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			vrednostM1REF = vrednostM1;
+			if(vr) {
+				nuliranje.setText("Vrati");
+				vr = false;
+			}else {
+				nuliranje.setText("Nula");
+				vr = true;
+			}
+			
+			
+			}
+		});
+		
+		nuliranje.setBounds(195, 580, 69, 34);
+		windows.getContentPane().add(nuliranje);
 		//System.out.println("Tabele kreirane uspesno");
 		
 		Thread thread = new Thread(){
@@ -254,8 +278,9 @@ public class Main_liofilizator {
 								   
 								   debag += kar;
 								   if(kar == '\n') {
-									   textPane.setText(debag);
+									   //textPane.setText(debag);
 								   }
+								   
 								   //System.out.println(kar);
 								   if(flagBRE1 == false) {
 									   if(kar != '<') {
@@ -336,7 +361,7 @@ public class Main_liofilizator {
 										   vrednostT4 = Float.parseFloat(t4);
 										   vrednostT5 = Float.parseFloat(t5);
 										   vrednostT6 = Float.parseFloat(t6);
-										   vrednostM1 = Float.parseFloat(m1);
+										   vrednostM1 = Float.parseFloat(m1) - vrednostM1REF;
 										   //System.out.println(vrednost);
 										   //slider.setValue(vrednost);
 										   series.add(apcisa++, vrednostT1);
@@ -434,8 +459,13 @@ public class Main_liofilizator {
 								   }
 								   if(kar == '<') {
 									   debBr++;
-									   if(debBr>2) {
+									   
+									   if(debBr==3) {
 										   textPane.setText(debag);
+										   debag = "";
+										   debBr = 0;
+										   
+										   //k = false;
 									   }
 								   }
 								   
