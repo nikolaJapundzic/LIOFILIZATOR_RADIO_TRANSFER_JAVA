@@ -191,12 +191,13 @@ public class Main_liofilizator {
 		
 		nuliranje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			vrednostM1REF = vrednostM1;
 			if(vr) {
+				vrednostM1REF = vrednostM1;
 				nuliranje.setText("Vrati");
 				vr = false;
 			}else {
 				nuliranje.setText("Nula");
+				vrednostM1REF = 0;
 				vr = true;
 			}
 			
